@@ -1,0 +1,14 @@
+{
+  "name": "insurance-claim",
+  "version": "1.0.0",
+  "description": "app to help users claim insurance via telegram, sms, or ussd (or at least 2 of them)",
+  "main": "index.js",
+  "repository": "https://github.com/wachukxs/insurance-claim-automation.git",
+  "author": "@wachukxs",
+  "license": "MIT",
+  "private": false,
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "telebot": "^1.4.1"
+  }
+}
