@@ -12,4 +12,6 @@ bot.on('edit', (msg) => { // what do we want to do on edit?, reprocess the messa
     return msg.reply.text('I saw it! You edited a message!', { asReply: true });
 });
 
-bot.start();
+if (process.env.NODE_ENV && process.env.NODE_ENV == 'production') {
+    bot.start(); // only run in prod, there can only be one instance!
+}

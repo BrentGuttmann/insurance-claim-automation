@@ -1,4 +1,3 @@
-
 const swaggerAutognerator = require('swagger-autogen')();
 
 try {
@@ -19,7 +18,6 @@ try {
                 fullName: 'some fullname',
                 email: 'random@email.com',
             },
-
         },
 
     };

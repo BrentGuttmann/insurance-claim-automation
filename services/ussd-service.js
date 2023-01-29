@@ -6,7 +6,9 @@ const db = require('../models')
 // TODO: Look at this code again to clean it up.
 exports.processAfricaTalkingUSSD = (req, res) => {
     const _FUNCTIONNAME = 'processAfricaTalkingUSSD'
-    console.log('hitting', _FILENAME, _FUNCTIONNAME);
+    console.log('\nhitting', _FILENAME, _FUNCTIONNAME);
+
+    console.log('\nGot this ussd', req.body);
 
     // Read the variables sent via POST from the API
     const {
@@ -42,4 +44,16 @@ exports.processAfricaTalkingUSSD = (req, res) => {
     res.set('Content-Type: text/plain');
     res.status(200).send(response);
 
+}
+
+// TODO: Look at this code again to clean it up.
+exports.processAfricaTalkingUSSDReport = (req, res) => {
+    const _FUNCTIONNAME = 'processAfricaTalkingUSSDReport'
+    console.log('\nhitting', _FILENAME, _FUNCTIONNAME);
+
+    // Read the variables sent via POST from the API
+    console.log('\nUSSD Report', req.body);
+
+    // Send response back to the API
+    res.sendStatus(200) // Important
 }

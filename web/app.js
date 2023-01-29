@@ -37,7 +37,7 @@ _store.sync() // create the table for the Sessions if it doesn't exist
 
 // set morgan to log info about our requests for development use.
 const morganFormat = ':remote-addr - :remote-user [:date[web]] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent" - response-time :response-time ms'
-app.use(morgan(morganFormat))
+app.use(morgan(morganFormat)) // TODO: ignore /docs routes (it's unnecessarily clouding our logs)
 
 app.use(helmet());
 // use cors
