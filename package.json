@@ -6,9 +6,25 @@
   "repository": "https://github.com/wachukxs/insurance-claim-automation.git",
   "author": "@wachukxs",
   "license": "MIT",
+  "keywords": [
+    "insurance",
+    "ke",
+    "telegram",
+    "bots",
+    "USSD",
+    "SMS",
+    "webhooks"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified... yet\" && exit 1",
+    "start:dev": "DEV=true nodemon  --ignore '*.json' --exec 'node ./swagger.js && node --trace-warnings --unhandled-rejections=warn ./index.js'",
+    "start": "node --trace-warnings --unhandled-rejections=warn ./index.js"
+  },
   "private": false,
   "dependencies": {
     "dotenv": "^16.0.3",
+    "sequelize": "^6.28.0",
+    "sequelize-cli": "^6.6.0",
     "telebot": "^1.4.1"
   }
 }
