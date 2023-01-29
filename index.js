@@ -1,18 +1,17 @@
 const dotenv = require('dotenv');
 dotenv.config();
 
-const TeleBot = require('telebot');
+const app = require('./web/app'); // Express
+const http = require('http');
 
-const bot = new TeleBot({
-    token: process.env.TELEGRAM_BOT_TOKEN
-})
+// Get port from environment and store in Express.
+const port = parseInt(process.env.PORT, 10) || parseInt(process.env.LOCAL_PORT, 10) || 3059;
+app.set('port', port); // necessary ?
 
-bot.on(['/start', '/hello'], (msg) => msg.reply.text('Welcome!')); // should say what the bot can do.
+// Create HTTP server.
+const server = http.createServer(app);
 
-bot.on('text', (msg) => msg.reply.text(msg.text));
-
-bot.on('edit', (msg) => { // what do we want to do on edit?, reprocess the message/command? or do nothing for now?
-    return msg.reply.text('I saw it! You edited a message!', { asReply: true });
+server.listen(port, () => { // auto change port if port is already in use, handle error gracefully
+    // about app.get('env') https://stackoverflow.com/a/34228447/9259701
+    console.log('node server running on %s env, listening on port :%s', app.get('env'), port);
 });
-
-bot.start();

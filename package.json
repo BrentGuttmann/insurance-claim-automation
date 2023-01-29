@@ -18,13 +18,23 @@
   "scripts": {
     "test": "echo \"Error: no test specified... yet\" && exit 1",
     "start:dev": "DEV=true nodemon  --ignore '*.json' --exec 'node ./swagger.js && node --trace-warnings --unhandled-rejections=warn ./index.js'",
-    "start": "node --trace-warnings --unhandled-rejections=warn ./index.js"
+    "start": "node ./swagger.js && node --trace-warnings --unhandled-rejections=warn ./index.js"
   },
   "private": false,
   "dependencies": {
+    "connect-session-sequelize": "^7.1.5",
+    "cors": "^2.8.5",
     "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "helmet": "^6.0.1",
+    "joi": "^17.7.0",
+    "morgan": "^1.10.0",
     "sequelize": "^6.28.0",
     "sequelize-cli": "^6.6.0",
+    "sqlite3": "^5.1.4",
+    "swagger-autogen": "^2.23.0",
+    "swagger-ui-express": "^4.6.0",
     "telebot": "^1.4.1"
   }
 }
