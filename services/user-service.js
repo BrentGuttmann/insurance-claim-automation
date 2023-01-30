@@ -33,7 +33,14 @@ exports.getAllUsersWithClaims = (req, res) => {
     const _FUNCTIONNAME = 'getAllUsersWithClaims'
     console.log('\nhitting', _FILENAME, _FUNCTIONNAME);
 
-    db.User.findAll()
+    db.User.findAll({
+        include: [{
+            model: db.Claim,
+            // include: [{
+            //     model: db.Media
+            // }]
+        }]
+    })
     .then(results => {
         res.status(200).json({
             message: 'Hello',
@@ -89,11 +96,10 @@ exports.createNewClaimForUser = (req, res) => {
     const _FUNCTIONNAME = 'createNewClaimForUser'
     console.log('\nhitting', _FILENAME, _FUNCTIONNAME);
 
-    db.User.create({
-        membershipId: req.body.membershipId, // Ideally auto generate membershipId
-        email: req.body.email,
-        lastName: req.session.lastName,
-        firstName: req.session.firstName
+    db.Claim.create({
+        userId: req.params.id,
+        details: req.body.details,
+        name: req.session.name
     }).then((result) => {
         res.status(200).json({
             message: 'Hello',
@@ -121,7 +127,7 @@ exports.getSingleUser = (req, res) => {
 
     db.User.findOne({
         where: {
-            membershipId: req.body.membershipId, // Ideally auto generate membershipId
+            id: req.params.id,
         }
     }).then((result) => {
         res.status(200).json({
@@ -150,7 +156,10 @@ exports.getSingleUserWithClaims = (req, res) => {
 
     db.User.findOne({
         where: {
-            membershipId: req.body.membershipId, // Ideally auto generate membershipId
+            id: req.params.id,
+        },
+        include: {
+            model: db.Claim
         }
     }).then((result) => {
         res.status(200).json({

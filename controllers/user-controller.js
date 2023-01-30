@@ -15,6 +15,6 @@ router.post(`/${user}/new-user`, express.json(), userService.createNewUser)
 router.get(`/${user}/:id`, express.json(), userService.getSingleUser)
 router.get(`/${user}/:id/claims`, express.json(), userService.getSingleUserWithClaims)
 
-router.post(`/${user}/claim`, express.json(), userService.createNewClaimForUser)
+router.post(`/${user}/:id/claim`, express.json(), userService.createNewClaimForUser)
 
 module.exports = router;

@@ -27,11 +27,11 @@ exports.processAfricaTalkingUSSD = async (req, res) => {
     let response = '';
 
     try {
-        if ((/1\*(?<membershipId>[a-z]{4}\d{2})\*(?<insuranceFor>[1-8])\*(?<location>[\d\s\w\'\"\-]+)\*(?<date>\d{2}\/\d{2}\/\d{4})\*(?<accidentType>[\s\w]+)/gi).test(text)) { // accidentTypeRegexAsk.test(text)
+        if ((/1\*(?<membershipId>[a-z]{4}\d{2})\*(?<insuranceFor>[1-8])\*(?<location>[\d\s\w\'\"\-]+)\*(?<date>\d{2}\/\d{2}\/\d{4})\*(?<accidentType>[\s\w]+)/gi).exec(text)) { // accidentTypeRegexAsk.test(text)
             console.log('\nhitting stepSix');
             const stepSixRegex = /1\*(?<membershipId>[a-z]{4}\d{2})\*(?<insuranceFor>[1-8])\*(?<location>[\d\s\w\'\"\-]+)\*(?<date>\d{2}\/\d{2}\/\d{4})\*(?<accidentType>[\s\w]+)/gi
 
-            let _stepSixMatches = stepSixRegex.test(text);
+            let _stepSixMatches = stepSixRegex.exec(text);
 
             const _user = await db.User.findOne({ // authenticate with their membership id
                 where: {
@@ -40,11 +40,11 @@ exports.processAfricaTalkingUSSD = async (req, res) => {
             })
 
             response = `END Hi ${_user.firstName}, thank you for providing these details. We've raised your claim.`
-        } else if ((/1\*(?<membershipId>[a-z]{4}\d{2})\*[1-8]\*(?<location>[\d\s\w\'\"\-]+)\*(?<date>\d{2}\/\d{2}\/\d{4})/gi).test(text)) { // dateRegexAsk.test(text)
+        } else if ((/1\*(?<membershipId>[a-z]{4}\d{2})\*[1-8]\*(?<location>[\d\s\w\'\"\-]+)\*(?<date>\d{2}\/\d{2}\/\d{4})/gi).exec(text)) { // dateRegexAsk.test(text)
             console.log('\nhitting stepFive');
             const stepFiveRegex = /1\*(?<membershipId>[a-z]{4}\d{2})\*[1-8]\*(?<location>[\d\s\w\'\"\-]+)\*(?<date>\d{2}\/\d{2}\/\d{4})/gi
 
-            let _stepFiveMatches = stepFiveRegex.test(text);
+            let _stepFiveMatches = stepFiveRegex.exec(text);
 
             const _user = await db.User.findOne({ // authenticate with their membership id
                 where: {
@@ -54,11 +54,11 @@ exports.processAfricaTalkingUSSD = async (req, res) => {
 
             response = `CON Hi ${_user.firstName}, provide the type of accident/incident:
                 e.g. Collision`
-        } else if ((/1\*(?<membershipId>[a-z]{4}\d{2})\*[1-8]\*(?<location>[\d\s\w\'\"\-]+)/gi).test(text)) { // locationRegexAsk.test(text)
+        } else if ((/1\*(?<membershipId>[a-z]{4}\d{2})\*[1-8]\*(?<location>[\d\s\w\'\"\-]+)/gi).exec(text)) { // locationRegexAsk.test(text)
             console.log('\nhitting stepFour');
             const stepFourRegex = /1\*(?<membershipId>[a-z]{4}\d{2})\*[1-8]\*(?<location>[\d\s\w\'\"\-]+)/gi
 
-            let _stepFourMatches = stepFourRegex.test(text);
+            let _stepFourMatches = stepFourRegex.exec(text);
 
             const _user = await db.User.findOne({ // authenticate with their membership id
                 where: {
@@ -68,11 +68,11 @@ exports.processAfricaTalkingUSSD = async (req, res) => {
 
             response = `CON Hi ${_user.firstName}, provide the date of the incident:
                 e.g. DD/MM/YYYY`
-        } else if ((/1\*(?<membershipId>[a-z]{4}\d{2})\*[1-8]/gi).test(text)) { // insuranceForRegexAsk.test(text)
+        } else if ((/1\*(?<membershipId>[a-z]{4}\d{2})\*[1-8]/gi).exec(text)) { // insuranceForRegexAsk.test(text)
             console.log('\nhitting stepThree');
             const stepThreeRegex = /1\*(?<membershipId>[a-z]{4}\d{2})\*[1-8]/gi
 
-            let _stepThreeMatches = stepThreeRegex.test(text);
+            let _stepThreeMatches = stepThreeRegex.exec(text);
 
             const _user = await db.User.findOne({ // authenticate with their membership id
                 where: {
@@ -82,11 +82,11 @@ exports.processAfricaTalkingUSSD = async (req, res) => {
 
             response = `CON Hi ${_user.firstName}, provide the Location of the incident:
                 e.g. Nairobi CBD`
-        } else if ((/1\*(?<membershipId>[a-z]{4}\d{2})/gi).test(text)) {
+        } else if ((/1\*(?<membershipId>[a-z]{4}\d{2})/gi).exec(text)) {
             console.log('\nhitting stepTwo');
             const stepTwoRegex = /1\*(?<membershipId>[a-z]{4}\d{2})/gi
 
-            let _stepTwoMatches = stepTwoRegex.test(text);
+            let _stepTwoMatches = stepTwoRegex.exec(text);
 
             const _user = await db.User.findOne({ // authenticate with their membership id
                 where: {
