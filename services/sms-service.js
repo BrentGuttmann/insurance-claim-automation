@@ -23,10 +23,10 @@ exports.processAfricaTalkingIncomingSMS = async (req, res) => {
     let matches = smsClaimRegex.exec(req.body.text);
 
     // Read the variables sent via POST from the API
-    console.log('\nGot this sms message', req.body);
-    console.log('\n\nthe text', req.body.text);
-    console.log('\nmatches 01', matches);
-    console.log('\nmatches 02', smsClaimRegex.test(req.body.text));
+    // console.log('\nGot this sms message', req.body);
+    // console.log('\n\nthe text', req.body.text);
+    // console.log('\nmatches 01', matches);
+    // console.log('\nmatches 02', smsClaimRegex.test(req.body.text));
 
     let _message = 'Welcome to Incourage Insurance Claim Service. To get started, send "hi" or "hello"'
 
@@ -50,9 +50,9 @@ exports.processAfricaTalkingIncomingSMS = async (req, res) => {
             })
 
             if (_user === null) {
-                _message = 'Membership ID not found.'
+                _message = 'Membership ID not found. Claim not raised.'
             } else { // save the details.
-                const _claim = await db.Claim.create({ // name is optional, intended for 
+                const _claim = await db.Claim.create({
                     name: matches.groups.name,
                     details: matches.groups.details,
                     userId: _user.id

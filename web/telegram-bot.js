@@ -36,6 +36,7 @@ bot.on('text', async (msg) => {
          * else we tell them invalid id.
          */
 
+        console.log('looking for membershipId', matches.groups.membershipId);
         const _user = await db.User.findOne({ // authenticate with their membership id
             where: {
                 membershipId: matches.groups.membershipId.toUpperCase()
@@ -43,7 +44,7 @@ bot.on('text', async (msg) => {
         })
 
         if (_user === null) {
-            _message = 'Membership ID not found.'
+            _message = 'Membership ID not found. Claim not raised.'
         } else { // save the details.
             const _claim = await db.Claim.create({ // name is optional, intended for 
                 name: matches.groups.name,
@@ -53,7 +54,7 @@ bot.on('text', async (msg) => {
             console.log('\ncreated claim', _claim);
             _message = `Thank you ${_user.firstName}. Your claim has been submitted. To make another claim send "hi" or "hello"`
         }
-    } else if (smsGreetingRegex.test(req.body.text)) {
+    } else if (smsGreetingRegex.test(msg.text)) {
         _message = welcomeText
     }
     return msg.reply.text(_message)
