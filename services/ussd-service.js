@@ -39,6 +39,15 @@ exports.processAfricaTalkingUSSD = async (req, res) => {
                 }
             })
 
+            await db.Claim.create({
+                name: _stepSixMatches.groups.insuranceFor,
+                details: `For: ${_stepSixMatches.groups.insuranceFor}
+                Location: ${_stepSixMatches.groups.location}
+                Date: ${_stepSixMatches.groups.date}
+                Accident Type: ${_stepSixMatches.groups.accidentType}`,
+                userId: _user.id
+            })
+
             response = `END Hi ${_user.firstName}, thank you for providing these details. We've raised your claim.`
         } else if ((/1\*(?<membershipId>[a-z]{4}\d{2})\*[1-8]\*(?<location>[\d\s\w\'\"\-]+)\*(?<date>\d{2}\/\d{2}\/\d{4})/gi).exec(text)) { // dateRegexAsk.test(text)
             console.log('\nhitting stepFive');
