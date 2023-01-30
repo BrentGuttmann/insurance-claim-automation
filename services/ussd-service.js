@@ -37,13 +37,17 @@ exports.processAfricaTalkingUSSD = async (req, res) => {
     } else if ( text == '1') {
         // Business logic for first level response
         response = `CON Provide your Membership ID`;
-    } else if (membershipIdRegex.test(text)) {
+    } else if ((/1\*(?<membershipId>[a-z]{4}\d{2})/gi).test(text)) {
         // Business logic for first level response
         // This is a terminal request. Note how we start the response with END
 
+        const stepTwoRegex = /1\*(?<membershipId>[a-z]{4}\d{2})/gi
+
+        let _stepTwoMatches = stepTwoRegex.exec(text);
+        
         const _user = await db.User.findOne({ // authenticate with their membership id
             where: {
-                membershipId: text.toUpperCase()
+                membershipId: _stepTwoMatches.groups.membershipId.toUpperCase()
             }
         })
         if (_user === null) {
