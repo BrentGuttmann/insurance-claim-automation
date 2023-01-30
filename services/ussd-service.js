@@ -119,14 +119,14 @@ exports.processAfricaTalkingUSSD = async (req, res) => {
             1. Raise a claim`;
         } else {
             console.log('\nhitting error input');
-            response = `CON Please provide a valid input`
+            response = `END Please provide a valid input. Try again.`
         }
 
         // Send the response back to the API
         res.set('Content-Type: text/plain');
         res.status(200).send(response);
     } catch (error) {
-        response = 'Service Error. Please try again later.'
+        response = 'END Service Error. Please try again later.'
         // Send the response back to the API
         res.set('Content-Type: text/plain');
         res.status(200).send(response);
