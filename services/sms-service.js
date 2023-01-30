@@ -54,7 +54,6 @@ exports.processAfricaTalkingIncomingSMS = async (req, res) => {
             })
 
             if (_user === null) {
-                req.session.authenticated = false
                 _message = 'Membership ID not found.'
             } else { // save the details.
                 const _claim = await db.Claim.create({ // name is optional, intended for 
