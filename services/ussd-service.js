@@ -44,7 +44,7 @@ exports.processAfricaTalkingUSSD = async (req, res) => {
         const stepTwoRegex = /1\*(?<membershipId>[a-z]{4}\d{2})/gi
 
         let _stepTwoMatches = stepTwoRegex.exec(text);
-        
+
         const _user = await db.User.findOne({ // authenticate with their membership id
             where: {
                 membershipId: _stepTwoMatches.groups.membershipId.toUpperCase()
@@ -73,16 +73,16 @@ exports.processAfricaTalkingUSSD = async (req, res) => {
         
     } else if (sessionId in _ussdSession) {
         // collect details of their claim
-        if ((/1\*[1-8]/).test(text)) { // insuranceForRegexAsk.test(text)
+        if ((/1\*(?<membershipId>[a-z]{4}\d{2})\*[1-8]/).test(text)) { // insuranceForRegexAsk.test(text)
             response = `CON Hi ${_ussdSession[sessionId].firstName}, provide the Location of the incident:
             e.g. Nairobi CBD`
-        } else if ((/1\*[1-8](?<location>[\d\s\w\'\"\-]+)/).test(text)) { // locationRegexAsk.test(text)
+        } else if ((/1\*(?<membershipId>[a-z]{4}\d{2})\*[1-8](?<location>[\d\s\w\'\"\-]+)/).test(text)) { // locationRegexAsk.test(text)
             response = `CON Hi ${_ussdSession[sessionId].firstName}, provide the date of the incident:
             e.g. DD/MM/YYYY`
-        } else if ((/1\*[1-8](?<location>[\d\s\w\'\"\-]+)\*(?<date>\d{2}\/\d{2}\/\d{4})/).test(text)) { // dateRegexAsk.test(text)
+        } else if ((/1\*(?<membershipId>[a-z]{4}\d{2})\*[1-8](?<location>[\d\s\w\'\"\-]+)\*(?<date>\d{2}\/\d{2}\/\d{4})/).test(text)) { // dateRegexAsk.test(text)
             response = `CON Hi ${_ussdSession[sessionId].firstName}, provide the type of accident/incident:
             e.g. Collision`
-        } else if ((/1\*(?<insuranceFor>[1-8])(?<location>[\d\s\w\'\"\-]+)\*(?<date>\d{2}\/\d{2}\/\d{4})\*(?<accidentType>[\s\w]+)/).test(text)) { // accidentTypeRegexAsk.test(text)
+        } else if ((/1\*(?<membershipId>[a-z]{4}\d{2})\*(?<insuranceFor>[1-8])(?<location>[\d\s\w\'\"\-]+)\*(?<date>\d{2}\/\d{2}\/\d{4})\*(?<accidentType>[\s\w]+)/).test(text)) { // accidentTypeRegexAsk.test(text)
             response = `END Hi ${_ussdSession[sessionId].firstName}, thank you for providing these details. We've raised your claim.`
         } else { // TODO: Maybe give 2 trials here.
             response = `CON Hi ${_ussdSession[sessionId].firstName}, select insurance claim type:
