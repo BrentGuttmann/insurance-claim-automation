@@ -28,7 +28,7 @@ exports.processAfricaTalkingUSSD = async (req, res) => {
 
     try {
         if ((/1\*(?<membershipId>[a-z]{4}\d{2})\*(?<insuranceFor>[1-8])\*(?<location>[\d\s\w\'\"\-]+)\*(?<date>\d{2}\/\d{2}\/\d{4})\*(?<accidentType>[\s\w]+)/gi).test(text)) { // accidentTypeRegexAsk.test(text)
-            console.log('hitting stepSix');
+            console.log('\nhitting stepSix');
             const stepSixRegex = /1\*(?<membershipId>[a-z]{4}\d{2})\*(?<insuranceFor>[1-8])\*(?<location>[\d\s\w\'\"\-]+)\*(?<date>\d{2}\/\d{2}\/\d{4})\*(?<accidentType>[\s\w]+)/gi
 
             let _stepSixMatches = stepSixRegex.test(text);
@@ -41,7 +41,7 @@ exports.processAfricaTalkingUSSD = async (req, res) => {
 
             response = `END Hi ${_user.firstName}, thank you for providing these details. We've raised your claim.`
         } else if ((/1\*(?<membershipId>[a-z]{4}\d{2})\*[1-8]\*(?<location>[\d\s\w\'\"\-]+)\*(?<date>\d{2}\/\d{2}\/\d{4})/gi).test(text)) { // dateRegexAsk.test(text)
-            console.log('hitting stepFive');
+            console.log('\nhitting stepFive');
             const stepFiveRegex = /1\*(?<membershipId>[a-z]{4}\d{2})\*[1-8]\*(?<location>[\d\s\w\'\"\-]+)\*(?<date>\d{2}\/\d{2}\/\d{4})/gi
 
             let _stepFiveMatches = stepFiveRegex.test(text);
@@ -55,7 +55,7 @@ exports.processAfricaTalkingUSSD = async (req, res) => {
             response = `CON Hi ${_user.firstName}, provide the type of accident/incident:
                 e.g. Collision`
         } else if ((/1\*(?<membershipId>[a-z]{4}\d{2})\*[1-8]\*(?<location>[\d\s\w\'\"\-]+)/gi).test(text)) { // locationRegexAsk.test(text)
-            console.log('hitting stepFour');
+            console.log('\nhitting stepFour');
             const stepFourRegex = /1\*(?<membershipId>[a-z]{4}\d{2})\*[1-8]\*(?<location>[\d\s\w\'\"\-]+)/gi
 
             let _stepFourMatches = stepFourRegex.test(text);
@@ -69,7 +69,7 @@ exports.processAfricaTalkingUSSD = async (req, res) => {
             response = `CON Hi ${_user.firstName}, provide the date of the incident:
                 e.g. DD/MM/YYYY`
         } else if ((/1\*(?<membershipId>[a-z]{4}\d{2})\*[1-8]/gi).test(text)) { // insuranceForRegexAsk.test(text)
-            console.log('hitting stepThree');
+            console.log('\nhitting stepThree');
             const stepThreeRegex = /1\*(?<membershipId>[a-z]{4}\d{2})\*[1-8]/gi
 
             let _stepThreeMatches = stepThreeRegex.test(text);
@@ -83,7 +83,7 @@ exports.processAfricaTalkingUSSD = async (req, res) => {
             response = `CON Hi ${_user.firstName}, provide the Location of the incident:
                 e.g. Nairobi CBD`
         } else if ((/1\*(?<membershipId>[a-z]{4}\d{2})/gi).test(text)) {
-            console.log('hitting stepTwo');
+            console.log('\nhitting stepTwo');
             const stepTwoRegex = /1\*(?<membershipId>[a-z]{4}\d{2})/gi
 
             let _stepTwoMatches = stepTwoRegex.test(text);
@@ -109,16 +109,16 @@ exports.processAfricaTalkingUSSD = async (req, res) => {
             }
 
         } else if (text == '1') {
-            console.log('hitting stepOne');
+            console.log('\nhitting stepOne');
             // Business logic for first level response
             response = `CON Provide your Membership ID`;
         } else if (text == '') {
-            console.log('hitting stepZero');
+            console.log('\nhitting stepZero');
             // This is the first request. Note how we start the response with CON
             response = `CON What would you like to do?
             1. Raise a claim`;
         } else {
-            console.log('hitting error input');
+            console.log('\nhitting error input');
             response = `CON Please provide a valid input`
         }
 
