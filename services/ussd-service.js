@@ -37,7 +37,7 @@ exports.processAfricaTalkingUSSD = async (req, res) => {
     } else if ( text == '1') {
         // Business logic for first level response
         response = `CON Provide your Membership ID`;
-    } else if ((/1\*(?<membershipId>[a-z]{4}\d{2})/gi).test(text)) {
+    } else if ((/1\*(?<membershipId>[a-z]{4}\d{2})/gi).test(text)) { // change to .exec?
         // Business logic for first level response
         // This is a terminal request. Note how we start the response with END
 
@@ -73,16 +73,16 @@ exports.processAfricaTalkingUSSD = async (req, res) => {
         
     } else if (sessionId in _ussdSession) {
         // collect details of their claim
-        if ((/1\*(?<membershipId>[a-z]{4}\d{2})\*[1-8]/gi).test(text)) { // insuranceForRegexAsk.test(text)
+        if ((/1\*(?<membershipId>[a-z]{4}\d{2})\*[1-8]/gi).exec(text)) { // insuranceForRegexAsk.test(text)
             response = `CON Hi ${_ussdSession[sessionId].firstName}, provide the Location of the incident:
             e.g. Nairobi CBD`
-        } else if ((/1\*(?<membershipId>[a-z]{4}\d{2})\*[1-8](?<location>[\d\s\w\'\"\-]+)/gi).test(text)) { // locationRegexAsk.test(text)
+        } else if ((/1\*(?<membershipId>[a-z]{4}\d{2})\*[1-8](?<location>[\d\s\w\'\"\-]+)/gi).exec(text)) { // locationRegexAsk.test(text)
             response = `CON Hi ${_ussdSession[sessionId].firstName}, provide the date of the incident:
             e.g. DD/MM/YYYY`
-        } else if ((/1\*(?<membershipId>[a-z]{4}\d{2})\*[1-8](?<location>[\d\s\w\'\"\-]+)\*(?<date>\d{2}\/\d{2}\/\d{4})/gi).test(text)) { // dateRegexAsk.test(text)
+        } else if ((/1\*(?<membershipId>[a-z]{4}\d{2})\*[1-8](?<location>[\d\s\w\'\"\-]+)\*(?<date>\d{2}\/\d{2}\/\d{4})/gi).exec(text)) { // dateRegexAsk.test(text)
             response = `CON Hi ${_ussdSession[sessionId].firstName}, provide the type of accident/incident:
             e.g. Collision`
-        } else if ((/1\*(?<membershipId>[a-z]{4}\d{2})\*(?<insuranceFor>[1-8])(?<location>[\d\s\w\'\"\-]+)\*(?<date>\d{2}\/\d{2}\/\d{4})\*(?<accidentType>[\s\w]+)/gi).test(text)) { // accidentTypeRegexAsk.test(text)
+        } else if ((/1\*(?<membershipId>[a-z]{4}\d{2})\*(?<insuranceFor>[1-8])(?<location>[\d\s\w\'\"\-]+)\*(?<date>\d{2}\/\d{2}\/\d{4})\*(?<accidentType>[\s\w]+)/gi).exec(text)) { // accidentTypeRegexAsk.test(text)
             response = `END Hi ${_ussdSession[sessionId].firstName}, thank you for providing these details. We've raised your claim.`
         } else {
             response = `END Hi ${_ussdSession[sessionId].firstName}, you selected an invalid input`
