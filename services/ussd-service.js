@@ -84,16 +84,8 @@ exports.processAfricaTalkingUSSD = async (req, res) => {
             e.g. Collision`
         } else if ((/1\*(?<membershipId>[a-z]{4}\d{2})\*(?<insuranceFor>[1-8])(?<location>[\d\s\w\'\"\-]+)\*(?<date>\d{2}\/\d{2}\/\d{4})\*(?<accidentType>[\s\w]+)/gi).test(text)) { // accidentTypeRegexAsk.test(text)
             response = `END Hi ${_ussdSession[sessionId].firstName}, thank you for providing these details. We've raised your claim.`
-        } else { // TODO: Maybe give 2 trials here.
-            response = `CON Hi ${_ussdSession[sessionId].firstName}, select insurance claim type:
-            1. Car Insurance.
-            2. Comprehensive Car Insurance.
-            3. Own Damage Car Insurance.
-            4. Third Party Car Insurance.
-            5. Two Wheeler Insurance.
-            6. Comprehensive Two Wheeler Insurance.
-            7. Own Damage Two Wheeler Insurance.
-            8. Commercial Vehicle Insurance.`
+        } else {
+            response = `END Hi ${_ussdSession[sessionId].firstName}, you selected an invalid input`
         }
 
         // TODO: maybe split details into their own properties and check if they exist then ask accordingly
