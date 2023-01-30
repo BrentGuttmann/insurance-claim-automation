@@ -165,3 +165,4 @@ dist
 # Customs files
 at-outputs.jsonc
 doodle.txt
+tests/

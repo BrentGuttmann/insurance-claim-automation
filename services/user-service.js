@@ -30,7 +30,7 @@ exports.getAllUsers = (req, res) => {
 }
 
 exports.getAllUsersWithClaims = (req, res) => {
-    const _FUNCTIONNAME = 'getAllUsers'
+    const _FUNCTIONNAME = 'getAllUsersWithClaims'
     console.log('\nhitting', _FILENAME, _FUNCTIONNAME);
 
     db.User.findAll()
@@ -120,7 +120,9 @@ exports.getSingleUser = (req, res) => {
     console.log('\nhitting', _FILENAME, _FUNCTIONNAME);
 
     db.User.findOne({
-        membershipId: req.body.membershipId, // Ideally auto generate membershipId
+        where: {
+            membershipId: req.body.membershipId, // Ideally auto generate membershipId
+        }
     }).then((result) => {
         res.status(200).json({
             message: 'Hello',
@@ -143,11 +145,13 @@ exports.getSingleUser = (req, res) => {
 
 // TODO: work on this
 exports.getSingleUserWithClaims = (req, res) => {
-    const _FUNCTIONNAME = 'getSingleUser'
+    const _FUNCTIONNAME = 'getSingleUserWithClaims'
     console.log('\nhitting', _FILENAME, _FUNCTIONNAME);
 
     db.User.findOne({
-        membershipId: req.body.membershipId, // Ideally auto generate membershipId
+        where: {
+            membershipId: req.body.membershipId, // Ideally auto generate membershipId
+        }
     }).then((result) => {
         res.status(200).json({
             message: 'Hello',

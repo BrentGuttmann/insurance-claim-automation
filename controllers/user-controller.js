@@ -11,6 +11,7 @@ router.get(`/${user}/all/claims`, userService.getAllUsersWithClaims)
 
 router.post(`/${user}/new-user`, express.json(), userService.createNewUser)
 
+// TODO: check that :id is number
 router.get(`/${user}/:id`, express.json(), userService.getSingleUser)
 router.get(`/${user}/:id/claims`, express.json(), userService.getSingleUserWithClaims)
 

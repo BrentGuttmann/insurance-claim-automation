@@ -17,6 +17,12 @@ module.exports = {
       },
       claimId: {
         type: Sequelize.INTEGER,
+        references: {
+          model: {
+            tableName: 'Claims',
+          },
+          key: 'id'
+        },
       },
       createdAt: {
         type: Sequelize.DATE,

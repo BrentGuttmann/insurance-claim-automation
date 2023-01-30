@@ -16,6 +16,7 @@ module.exports = {
             id: 1,
             name: 'Car Insurance',
             userId: 1,
+            details: 'Should be more detailed text about the claim.',
             completed: false,
             createdAt: new Date(),
             updatedAt: new Date()
@@ -23,6 +24,7 @@ module.exports = {
             id: 2,
             name: 'Car Insurance',
             userId: 2,
+            details: 'Should be more detailed text about the claim.',
             completed: false,
             createdAt: new Date(),
             updatedAt: new Date()
@@ -30,6 +32,7 @@ module.exports = {
             id: 3,
             name: 'Car Insurance',
             userId: 3,
+            details: 'Should be more detailed text about the claim.',
             completed: false,
             createdAt: new Date(),
             updatedAt: new Date()

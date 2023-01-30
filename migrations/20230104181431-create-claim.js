@@ -16,7 +16,16 @@ module.exports = {
         type: Sequelize.BOOLEAN,
       },
       userId: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
+        references: {
+          model: {
+            tableName: 'Users',
+          },
+          key: 'id'
+        },
+      },
+      details: {
+        type: Sequelize.TEXT,
       },
       createdAt: {
         type: Sequelize.DATE,
