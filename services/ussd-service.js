@@ -55,27 +55,41 @@ exports.processAfricaTalkingUSSD = async (req, res) => {
                 details: ''
             }
 
-            response = `CON Hi ${_user.firstName}, provide insurance claim type in the format:
-            For: e.g. Car Insurance`
+            response = `CON Hi ${_user.firstName}, select insurance claim type:
+            1. Car Insurance.
+            2. Comprehensive Car Insurance.
+            3. Own Damage Car Insurance.
+            4. Third Party Car Insurance.
+            5. Two Wheeler Insurance.
+            6. Comprehensive Two Wheeler Insurance.
+            7. Own Damage Two Wheeler Insurance.
+            8. Commercial Vehicle Insurance.`
         }
 
         
     } else if (sessionId in _ussdSession) {
         // collect details of their claim
-        if (insuranceForRegexAsk.test(text)) {
-            response = `CON Hi ${_ussdSession[sessionId].firstName}, provide the Location of the incident with the format:
-            Location: e.g. Nairobi CBD`
-        } else if (locationRegexAsk.test(text)) {
-            response = `CON Hi ${_ussdSession[sessionId].firstName}, provide the date of the incident in the format:
-            Date: e.g. DD/MM/YYYY`
-        } else if (dateRegexAsk.test(text)) {
-            response = `CON Hi ${_ussdSession[sessionId].firstName}, provide the type of accident in the format:
-            Accident Type: e.g. Collision`
-        } else if (accidentTypeRegexAsk.test(text)) {
+        if ((/1\*[1-8]/).test(text)) { // insuranceForRegexAsk.test(text)
+            response = `CON Hi ${_ussdSession[sessionId].firstName}, provide the Location of the incident:
+            e.g. Nairobi CBD`
+        } else if ((/1\*[1-8](?<location>[\d\s\w\'\"\-]+)/).test(text)) { // locationRegexAsk.test(text)
+            response = `CON Hi ${_ussdSession[sessionId].firstName}, provide the date of the incident:
+            e.g. DD/MM/YYYY`
+        } else if ((/1\*[1-8](?<location>[\d\s\w\'\"\-]+)\*(?<date>\d{2}\/\d{2}\/\d{4})/).test(text)) { // dateRegexAsk.test(text)
+            response = `CON Hi ${_ussdSession[sessionId].firstName}, provide the type of accident/incident:
+            e.g. Collision`
+        } else if ((/1\*(?<insuranceFor>[1-8])(?<location>[\d\s\w\'\"\-]+)\*(?<date>\d{2}\/\d{2}\/\d{4})\*(?<accidentType>[\s\w]+)/).test(text)) { // accidentTypeRegexAsk.test(text)
             response = `END Hi ${_ussdSession[sessionId].firstName}, thank you for providing these details. We've raised your claim.`
         } else { // TODO: Maybe give 2 trials here.
-            response = `CON Hi ${_ussdSession[sessionId].firstName}, provide the Location of the incident with the format:
-            Location: e.g. Nairobi CBD`
+            response = `CON Hi ${_ussdSession[sessionId].firstName}, select insurance claim type:
+            1. Car Insurance.
+            2. Comprehensive Car Insurance.
+            3. Own Damage Car Insurance.
+            4. Third Party Car Insurance.
+            5. Two Wheeler Insurance.
+            6. Comprehensive Two Wheeler Insurance.
+            7. Own Damage Two Wheeler Insurance.
+            8. Commercial Vehicle Insurance.`
         }
 
         // TODO: maybe split details into their own properties and check if they exist then ask accordingly
