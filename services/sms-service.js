@@ -57,7 +57,7 @@ exports.processAfricaTalkingIncomingSMS = async (req, res) => {
                     details: matches.groups.details,
                     userId: _user.id
                 })
-                console.log('\ncreated claim', _claim);
+                // console.log('\ncreated claim', _claim);
                 _message = `Thank you ${_user.firstName}. Your claim has been submitted. To make another claim send "hi" or "hello"`
             }
         } else if (smsGreetingRegex.test(req.body.text)) { // if they sent "hi" or "hello"

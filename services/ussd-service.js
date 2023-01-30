@@ -3,10 +3,20 @@ const _FILENAME = path.basename(__filename);
 
 const db = require('../models')
 
-// TODO: Look at this code again to clean it up.
-exports.processAfricaTalkingUSSD = (req, res) => {
+let _ussdSession = { // ideally use db, or redis-server
+
+}
+
+exports.processAfricaTalkingUSSD = async (req, res) => {
     const _FUNCTIONNAME = 'processAfricaTalkingUSSD'
     console.log('\nhitting', _FILENAME, _FUNCTIONNAME);
+
+    const membershipIdRegex = new RegExp(/[a-z]{4}\d{2}/gi)
+    const membershipIdRegexAsk = new RegExp(/Membership\sID\:\s?(?<membershipId>[a-z]{4}\d{2})/gi)
+    const locationRegexAsk = new RegExp(/Location\:\s?[\d\s\w\'\"\-]+/gi)
+    const dateRegexAsk = new RegExp(/Date:\s?\d{2}\/\d{2}\/\d{4}/gi)
+    const accidentTypeRegexAsk = new RegExp(/Accident\sType:\s?[\s\w]+/gi)
+    const insuranceForRegexAsk = new RegExp(/For:\s?(?<name>[\s\w\'\"]+)/gi)
 
     console.log('\nGot this ussd', req.body);
 
@@ -22,22 +32,55 @@ exports.processAfricaTalkingUSSD = (req, res) => {
 
     if (text == '') {
         // This is the first request. Note how we start the response with CON
-        response = `CON What would you like to check
-        1. My account
-        2. My phone number`;
+        response = `CON What would you like to do?
+        1. Raise a claim`;
     } else if ( text == '1') {
         // Business logic for first level response
-        response = `CON Choose account information you want to view
-        1. Account number`;
-    } else if ( text == '2') {
+        response = `CON Provide your Membership ID`;
+    } else if (membershipIdRegex.test(text)) {
         // Business logic for first level response
         // This is a terminal request. Note how we start the response with END
-        response = `END Your phone number is ${phoneNumber}`;
-    } else if ( text == '1*1') {
-        // This is a second level response where the user selected 1 in the first instance
-        const accountNumber = 'ACC100101';
-        // This is a terminal request. Note how we start the response with END
-        response = `END Your account number is ${accountNumber}`;
+
+        const _user = await db.User.findOne({ // authenticate with their membership id
+            where: {
+                membershipId: text.toUpperCase()
+            }
+        })
+        if (_user === null) {
+            response = `END Membership ID not found. Register or provide a valid membership id.`;
+        } else {
+            _ussdSession[sessionId] = { // save session details
+                id: _user.id,
+                firstName: _user.firstName,
+                details: ''
+            }
+
+            response = `CON Hi ${_user.firstName}, provide insurance claim type in the format:
+            For: e.g. Car Insurance`
+        }
+
+        
+    } else if (sessionId in _ussdSession) {
+        // collect details of their claim
+        if (insuranceForRegexAsk.test(text)) {
+            response = `CON Hi ${_ussdSession[sessionId].firstName}, provide the Location of the incident with the format:
+            Location: e.g. Nairobi CBD`
+        } else if (locationRegexAsk.test(text)) {
+            response = `CON Hi ${_ussdSession[sessionId].firstName}, provide the date of the incident in the format:
+            Date: e.g. DD/MM/YYYY`
+        } else if (dateRegexAsk.test(text)) {
+            response = `CON Hi ${_ussdSession[sessionId].firstName}, provide the type of accident in the format:
+            Accident Type: e.g. Collision`
+        } else if (accidentTypeRegexAsk.test(text)) {
+            response = `END Hi ${_ussdSession[sessionId].firstName}, thank you for providing these details. We've raised your claim.`
+        } else { // TODO: Maybe give 2 trials here.
+            response = `CON Hi ${_ussdSession[sessionId].firstName}, provide the Location of the incident with the format:
+            Location: e.g. Nairobi CBD`
+        }
+
+        // TODO: maybe split details into their own properties and check if they exist then ask accordingly
+    } else {
+        response = `CON Please provide a valid input`
     }
 
     // Send the response back to the API
