@@ -11,7 +11,7 @@ const africastalking = AfricasTalking({
 });
 
 // regex to for data validation and user inputs
-const smsClaimRegex = new RegExp(/Membership\sID:\s?(?<membershipId>[a-z]{4}\d{2})\n?(?<details>For:(?<name>[\s\w\'\"]+)\n?Location:[\d\s\w\'\"\-]+\n?Date:\s?\d{2}\/\d{2}\/\d{4}\n?Accident\sType:[\s\w]+)/gi);
+const smsClaimRegex = new RegExp(/Membership\sID:\s?(?<membershipId>[a-z]{4}\d{2})\n?(?<details>For:\s?(?<name>[\s\w\'\"]+)\n?Location:\s?[\d\s\w\'\"\-]+\n?Date:\s?\d{2}\/\d{2}\/\d{4}\n?Accident\sType:\s?[\s\w]+)/gi);
 const smsGreetingRegex = new RegExp(/h(i|ello)/gi)
 const membershipIdRegex = new RegExp(/[a-z]{4}\d{2}/gi)
 // TODO: Look at this code again to clean it up.
@@ -19,10 +19,13 @@ exports.processAfricaTalkingIncomingSMS = async (req, res) => {
     const _FUNCTIONNAME = 'processAfricaTalkingUSSD'
     console.log('\nhitting', _FILENAME, _FUNCTIONNAME);
 
+
+    let matches = smsClaimRegex.exec(req.body.text);
+
     // Read the variables sent via POST from the API
     console.log('\nGot this sms message', req.body);
     console.log('\n\nthe text', req.body.text);
-    console.log('\nmatches 01', smsClaimRegex.exec(req.body.text));
+    console.log('\nmatches 01', matches);
     console.log('\nmatches 02', smsClaimRegex.test(req.body.text));
 
     let _message = 'Welcome to Incourage Insurance Claim Service. To get started, send "hi" or "hello"'
@@ -36,7 +39,7 @@ exports.processAfricaTalkingIncomingSMS = async (req, res) => {
                     Location: eg. Nairobi CBD
                     Date: DD/MM/YYYY
                     Accident Type: eg. Collision`
-        } else if (smsClaimRegex.exec(req.body.text)) { // they've followed the specified. smsClaimRegex.test(req.body.text)
+        } else if (matches) { // they've followed the specified. smsClaimRegex.test(req.body.text)
             /**
              * next steps:
              * we'll confirm their membership id. if it's okay
@@ -47,8 +50,6 @@ exports.processAfricaTalkingIncomingSMS = async (req, res) => {
              * 
              * else we tell them invalid id.
              */
-
-            let matches = smsClaimRegex.exec(req.body.text);
 
             const _user = await db.User.findOne({ // authenticate with their membership id
                 where: {

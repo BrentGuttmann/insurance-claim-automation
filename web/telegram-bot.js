@@ -6,7 +6,7 @@ const bot = new TeleBot({
 })
 
 // regex to for data validation and user inputs
-const smsClaimRegex = new RegExp(/Membership\sID:\s?(?<membershipId>[a-z]{4}\d{2})\n?(?<details>For:(?<name>[\s\w\'\"]+)\n?Location:[\d\s\w\'\"\-]+\n?Date:\s?\d{2}\/\d{2}\/\d{4}\n?Accident\sType:[\s\w]+)/gi);
+const smsClaimRegex = new RegExp(/Membership\sID:\s?(?<membershipId>[a-z]{4}\d{2})\n?(?<details>For:\s?(?<name>[\s\w\'\"]+)\n?Location:\s?[\d\s\w\'\"\-]+\n?Date:\s?\d{2}\/\d{2}\/\d{4}\n?Accident\sType:\s?[\s\w]+)/gi);
 const smsGreetingRegex = new RegExp(/h(i|ello)/gi)
 
 const welcomeText = `Welcome! To make a claim please follow the format below.
@@ -37,7 +37,6 @@ bot.on('text', async (msg) => {
          * 
          * else we tell them invalid id.
          */
-
 
         const _user = await db.User.findOne({ // authenticate with their membership id
             where: {
