@@ -22,6 +22,8 @@ exports.processAfricaTalkingIncomingSMS = async (req, res) => {
     // Read the variables sent via POST from the API
     console.log('\nGot this sms message', req.body);
     console.log('\n\nthe text', req.body.text);
+    console.log('\nmatches 01', smsClaimRegex.exec(req.body.text));
+    console.log('\nmatches 02', smsClaimRegex.test(req.body.text));
 
     let _message = 'Welcome to Incourage Insurance Claim Service. To get started, send "hi" or "hello"'
 
