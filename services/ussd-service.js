@@ -51,6 +51,7 @@ exports.processAfricaTalkingUSSD = async (req, res) => {
             response = `END Hi ${_user.firstName}, thank you for providing these details. We've raised your claim.`
         } else if ((/1\*(?<membershipId>[a-z]{4}\d{2})\*[1-8]\*(?<location>[\d\s\w\'\"\-]+)\*(?<date>\d{2}\/\d{2}\/\d{4})/gi).exec(text)) { // dateRegexAsk.test(text)
             console.log('\nhitting stepFive');
+            // TODO: check that data is an actual date.
             const stepFiveRegex = /1\*(?<membershipId>[a-z]{4}\d{2})\*[1-8]\*(?<location>[\d\s\w\'\"\-]+)\*(?<date>\d{2}\/\d{2}\/\d{4})/gi
 
             let _stepFiveMatches = stepFiveRegex.exec(text);
@@ -126,6 +127,7 @@ exports.processAfricaTalkingUSSD = async (req, res) => {
             // This is the first request. Note how we start the response with CON
             response = `CON What would you like to do?
             1. Raise a claim`;
+            // Maybe include an option (2. Get all raised claims)
         } else {
             console.log('\nhitting error input');
             response = `END Please provide a valid input. Try again.`
