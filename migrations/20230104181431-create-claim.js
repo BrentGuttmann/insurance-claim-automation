@@ -2,42 +2,50 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Users', {
-      id: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: Sequelize.INTEGER,
-      },
-      name: {
-        type: Sequelize.STRING,
-      },
-      completed: {
-        type: Sequelize.BOOLEAN,
-      },
-      userId: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: {
-            tableName: 'Users',
-          },
-          key: 'id'
+    try {
+      await queryInterface.createTable('Claims', {
+        id: {
+          allowNull: false,
+          autoIncrement: true,
+          primaryKey: true,
+          type: Sequelize.INTEGER,
         },
-      },
-      details: {
-        type: Sequelize.TEXT,
-      },
-      createdAt: {
-        type: Sequelize.DATE,
-        allowNull: false,
-      },
-      updatedAt: {
-        type: Sequelize.DATE,
-        allowNull: false,
-      },
-    });
+        name: {
+          type: Sequelize.STRING,
+        },
+        completed: {
+          type: Sequelize.BOOLEAN,
+        },
+        userId: {
+          type: Sequelize.INTEGER,
+          references: {
+            model: {
+              tableName: 'Users',
+            },
+            key: 'id'
+          },
+        },
+        details: {
+          type: Sequelize.TEXT,
+        },
+        createdAt: {
+          type: Sequelize.DATE,
+          allowNull: false,
+        },
+        updatedAt: {
+          type: Sequelize.DATE,
+          allowNull: false,
+        },
+      });
+    } catch (error) {
+      console.error("\nERR migrating claims up", error)
+    }
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Users');
+    try {
+      await queryInterface.dropTable('Claims');
+    } catch (error) {
+      console.error("\nERR migrating claims down", error)
+    }
   }
 };

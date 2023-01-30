@@ -2,39 +2,47 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Media', {
-      id: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: Sequelize.INTEGER,
-      },
-      name: {
-        type: Sequelize.STRING,
-      },
-      url: {
-        type: Sequelize.STRING,
-      },
-      claimId: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: {
-            tableName: 'Claims',
-          },
-          key: 'id'
+    try {
+      await queryInterface.createTable('Media', {
+        id: {
+          allowNull: false,
+          autoIncrement: true,
+          primaryKey: true,
+          type: Sequelize.INTEGER,
         },
-      },
-      createdAt: {
-        type: Sequelize.DATE,
-        allowNull: false,
-      },
-      updatedAt: {
-        type: Sequelize.DATE,
-        allowNull: false,
-      },
-    });
+        name: {
+          type: Sequelize.STRING,
+        },
+        url: {
+          type: Sequelize.STRING,
+        },
+        claimId: {
+          type: Sequelize.INTEGER,
+          references: {
+            model: {
+              tableName: 'Claims',
+            },
+            key: 'id'
+          },
+        },
+        createdAt: {
+          type: Sequelize.DATE,
+          allowNull: false,
+        },
+        updatedAt: {
+          type: Sequelize.DATE,
+          allowNull: false,
+        },
+      });
+    } catch (error) {
+      console.error("\nERR migrating media up", error)
+    }
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Media');
+    try {
+      await queryInterface.dropTable('Media');
+    } catch (error) {
+      console.error("\nERR migrating media down", error)
+    }
   }
 };
