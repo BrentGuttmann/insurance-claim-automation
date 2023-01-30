@@ -31,15 +31,7 @@ exports.processAfricaTalkingIncomingSMS = async (req, res) => {
     let _message = 'Welcome to Incourage Insurance Claim Service. To get started, send "hi" or "hello"'
 
     try {
-        if (smsGreetingRegex.test(req.body.text)) { // if they sent "hi" or "hello"
-            _message = `Welcome! To make a claim please follow the format below.
-                    
-                    Membership ID: eg. X****4
-                    For: e.g Car Insurance
-                    Location: eg. Nairobi CBD
-                    Date: DD/MM/YYYY
-                    Accident Type: eg. Collision`
-        } else if (matches) { // they've followed the specified. smsClaimRegex.test(req.body.text)
+        if (matches) { // they've followed the specified. smsClaimRegex.test(req.body.text)
             /**
              * next steps:
              * we'll confirm their membership id. if it's okay
@@ -68,6 +60,14 @@ exports.processAfricaTalkingIncomingSMS = async (req, res) => {
                 console.log('\ncreated claim', _claim);
                 _message = `Thank you ${_user.firstName}. Your claim has been submitted. To make another claim send "hi" or "hello"`
             }
+        } else if (smsGreetingRegex.test(req.body.text)) { // if they sent "hi" or "hello"
+            _message = `Welcome! To make a claim please follow the format below.
+                    
+                    Membership ID: eg. X****4
+                    For: e.g Car Insurance
+                    Location: eg. Nairobi CBD
+                    Date: DD/MM/YYYY
+                    Accident Type: eg. Collision`
         }
 
         // TODO: checks for when they don't follow the format.

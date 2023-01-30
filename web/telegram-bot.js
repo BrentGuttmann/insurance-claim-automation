@@ -24,9 +24,7 @@ bot.on('text', async (msg) => {
     console.log('\ngot a Telegram text');
     let matches = smsClaimRegex.exec(msg.text);
     let _message = ''
-    if (smsGreetingRegex.test(req.body.text)) {
-        _message = welcomeText
-    } else if (matches) { // they've followed the specified. smsClaimRegex.test(msg.text)
+    if (matches) { // they've followed the specified. smsClaimRegex.test(msg.text)
         /**
          * next steps:
          * we'll confirm their membership id. if it's okay
@@ -55,6 +53,8 @@ bot.on('text', async (msg) => {
             console.log('\ncreated claim', _claim);
             _message = `Thank you ${_user.firstName}. Your claim has been submitted. To make another claim send "hi" or "hello"`
         }
+    } else if (smsGreetingRegex.test(req.body.text)) {
+        _message = welcomeText
     }
     return msg.reply.text(_message)
 });
