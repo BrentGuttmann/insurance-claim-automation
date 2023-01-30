@@ -10,12 +10,13 @@ Find it here [@claim_motor_insurance_bot](http://t.me/claim_motor_insurance_bot)
 
 ## Africa's Talking Simulator (for SMS, and USSD)
 To test out: visit [Africa's Talking Simulator](https://simulator.africastalking.com:1517/)  
-USSD Dial Code: \*384\*25447#  
+USSD Dial Code: \*384\*25447#  (Did not implement a flow for this, but the USSD works)  
 SMS: 25446  
+> Important Note!! It seems Africa's Talking Simulator is down for Kenyan numbers (last time I check with was 30th Jan. 2023 - I emailed them about it and they're on it). Test with a different country number. I can show a demo if you need.
 
 ## Our API & Frontend
 * API: [incourage-insurer](https://incourage-insurer.herokuapp.com/)  
-* Frontend: [see-insurance-claims](https://see-insurance-claims.netlify.app/)  
+* Frontend: [see-insurance-claims](https://see-insurance-claims.netlify.app/). It's still in progress :)  
     * GitHub repo for the [frontend app](https://github.com/wachukxs/see-insure-claims)
 
 

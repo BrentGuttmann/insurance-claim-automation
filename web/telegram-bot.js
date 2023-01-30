@@ -10,7 +10,7 @@ const smsClaimRegex = new RegExp(/Membership\sID:\s?(?<membershipId>[a-z]{4}\d{2
 const smsGreetingRegex = new RegExp(/h(i|ello)/gi)
 
 bot.on(['/start', '/hello'], (msg) => {
-    msg.reply.text(`Welcome! To make a claim please follow the format below.
+    return msg.reply.text(`Welcome! To make a claim please follow the format below.
                     
     Membership ID: eg. X****4
     For: e.g Car Insurance
@@ -20,8 +20,6 @@ bot.on(['/start', '/hello'], (msg) => {
 }); // should say what the bot can do.
 
 bot.on('text', async (msg) => {
-
-
     let matches = smsClaimRegex.exec(msg.text);
     let _message = ''
     if (matches) { // they've followed the specified. smsClaimRegex.test(msg.text)
@@ -56,7 +54,7 @@ bot.on('text', async (msg) => {
             _message = `Thank you ${_user.firstName}. Your claim has been submitted. To make another claim send "hi" or "hello"`
         }
     }
-    msg.reply.text(_message)
+    return msg.reply.text(_message)
 });
 
 bot.on('edit', (msg) => { // what do we want to do on edit?, reprocess the message/command? or do nothing for now?
