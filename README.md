@@ -29,7 +29,8 @@ SMS: 25446
 
 
 ## Set heroku configs
-```heroku config:set CONFIG_VAR_NAME=var_value -a appName```
+```heroku config:set CONFIG_VAR_NAME=var_value -a appName```  
+```heroku logs --tail -a appName```
 
 ## From dev/local env to the world
 ```lt --port <PORT>```
