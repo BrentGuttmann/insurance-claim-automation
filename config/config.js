@@ -7,12 +7,14 @@ module.exports = {
     password: process.env.DEV_DB_PASSWORD,
     database: process.env.DEV_DB_NAME,
     dialect: process.env.DEV_DB_DIALECT,
+    storage: process.env.DEV_DB_URL,
   },
   production: {
     username: process.env.PROD_DB_USERNAME,
     password: process.env.PROD_DB_PASSWORD,
     database: process.env.PROD_DB_NAME,
     dialect: process.env.PROD_DB_DIALECT,
+    storage: process.env.PROD_DB_URL,
     dialectOptions: {
       bigNumberStrings: true,
     },

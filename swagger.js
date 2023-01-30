@@ -14,9 +14,28 @@ try {
             User: {
                 id: 1,
                 firstName: 'firstname',
+                membershipId: "ZZXX11",
                 lastName: 'lastname',
                 fullName: 'some fullname',
                 email: 'random@email.com',
+                createdAt: "2022-04-30T10:42:38.943Z",
+                updatedAt: "2022-02-30T10:42:38.943Z"
+            },
+            Claim: {
+                id: 1,
+                name: 'firstname',
+                userId: 1,
+                completed: false,
+                createdAt: "2022-04-30T10:42:38.943Z",
+                updatedAt: "2022-02-30T10:42:38.943Z"
+            },
+            Media: {
+                id: 1,
+                name: 'firstname',
+                url: "https://randome.url/path/specs",
+                claimId: 1,
+                createdAt: "2022-04-30T10:42:38.943Z",
+                updatedAt: "2022-02-30T10:42:38.943Z"
             },
         },
 

@@ -50,13 +50,14 @@ app.use(['/api/v1.0/docs', '/api/v1.0/doc','/docs?'], swaggerUi.serve, swaggerUi
 // TODO: auto import every controller
 const ussdRoutes = require('../controllers/ussd-controller')
 const smsRoutes = require('../controllers/sms-controller')
+const userRoutes = require('../controllers/user-controller')
 
-app.use('/api/v1.0', [ussdRoutes, smsRoutes])
+app.use('/api/v1.0', [ussdRoutes, smsRoutes, userRoutes])
 
 app.use(function (req, res) {
     // TODO: check the url they navigated to that got them lost, and try to offer suggestions that'll match why they got lost... maybe they missed a letter in their statecode url
     res.set('Content-Type: text/plain');
-    res.status(404).send('Hey, that URL/endpoint does not exist.') // show link to our docs?
+    res.status(404).send('Hey, that URL/endpoint does not exist. But check out our docs at /docs') // show link to our docs?
 });
 
 module.exports = app;

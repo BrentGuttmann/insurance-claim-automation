@@ -19,6 +19,10 @@ module.exports = {
         type: Sequelize.STRING,
         unique: true,
       },
+      membershipId: {
+        type: Sequelize.STRING,
+        unique: true,
+      },
       createdAt: {
         type: Sequelize.DATE,
         allowNull: false,

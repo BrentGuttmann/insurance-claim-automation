@@ -2,7 +2,7 @@
 const {
   Model
 } = require('sequelize');
-const moment = require('moment');
+const { formatDistance, formatRelative, subDays } = require('date-fns');
 
 /**
  * TODO contribution in OSS.
@@ -20,7 +20,10 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-
+      User.hasMany(models.Claim, {
+        foreignKey: 'userId',
+        allowNull: false
+      })
     }
   }
 
@@ -31,9 +34,9 @@ module.exports = (sequelize, DataTypes) => {
   User.init({
     id: {
       allowNull: false,
-      autoIncrement: true, // Or DataTypes.UUIDV1,
+      autoIncrement: true,
       primaryKey: true,
-      type: DataTypes.INTEGER, // TODO: make DataTypes.UUID, everywhere else too
+      type: DataTypes.INTEGER,
     },
     firstName: {
       type: DataTypes.STRING,
@@ -44,16 +47,22 @@ module.exports = (sequelize, DataTypes) => {
     fullName: {
       type: DataTypes.VIRTUAL,
       get() {
-        return `${this.firstName} ${this.lastName}`; // this.firstName is how you access columns without actual values
+        return `${this.firstName} ${this.lastName}`;
       },
       set(value) {
         throw new Error('Do not try to set the `fullName` value!');
       }
     },
+    membershipId: {
+      type: DataTypes.STRING,
+      unique: true,
+    },
     email: {
       type: DataTypes.STRING,
       unique: true,
-      isEmail: true
+      validate: {
+        isEmail: true
+      }
     },
     createdAt: {
       type: DataTypes.DATE,
